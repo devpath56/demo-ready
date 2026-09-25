@@ -21,6 +21,8 @@ Hackathon 2.0, 2026-09-23 (github.com/devpath56/ShipGate — `demo/`, `architect
 | The deck said 30 changes and 10:00; the app's legacy screen said 31 and 9:00 | Every number on a slide is grepped from the app. The spoken script is changed to match, or the app is |
 | Box overflow was missed when a heading was pushed off-stage (zero-width box, visible text) | `test-deck` measures text by its glyphs, and clips images by their `overflow:hidden` frame |
 | A favicon 404 showed as a console error | The template carries `<link rel="icon" href="data:,">` |
+| The draft post said the product "makes releases safe" on the platform — documentary evidence of a missing mechanism written as empirical unsafety, an app-level gate written as a platform change | Copy must not upgrade the spec's claims; the honest-notes paragraph carries the calibration into the post |
+| The PRD named every screen, but the three video-critical states (mode banner, refusal panel, BLOCKED → RESOLVED → SHIPPED in one frame) were specified nowhere | The spec stage's build acceptance criteria name the load-bearing visual states; Gate 0 verifies each is demoable in the build before polish begins |
 
 ## Slide types in templates/deck.html
 
@@ -42,4 +44,4 @@ Crop maths: `data-crop="x,y,w,h"` are fractions of the image; `data-img="WxH"` i
 ## Approval checkpoints (the operator decides)
 
 Creating or publicising a repo · which beats the deck covers · pushing third-party screenshots to a
-public repo · publishing the deck to Pages · any change to the app's own text to match the script.
+public repo · publishing the deck to Pages · publishing the post · any change to the app's own text to match the script.

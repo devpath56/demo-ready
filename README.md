@@ -1,13 +1,17 @@
 # demo-ready
 
-A Claude Code skill that makes a repo demo-presentation ready in two gates:
+A Claude Code skill that makes a repo demo-presentation ready in three gates:
 
+- **0 · spec inputs locked, build verified** — the locked spec, frozen pre-registration, and build
+  acceptance criteria from the spec stage; every load-bearing visual state confirmed demoable in
+  the working product before polish begins.
 - **A · repo available** — architecture model drawn from the code (Structurizr DSL, rendered by
   [Drawing Office](https://github.com/devpath56/drawing-office)), a drift check that fails CI when
   code and model disagree, and a GitHub Pages site.
-- **B · visual artifacts ready, tested, approved** — an HTML deck in the organizer's colours with a
-  synced presenter window, D2 workflow diagrams read from the code, and news/docs screenshots
-  captured only after their quotes are found verbatim on the live page.
+- **B · visual artifacts ready, tested, approved** — a beats table structuring the demo, an HTML
+  deck in the organizer's colours with a synced presenter window, D2 workflow diagrams read from
+  the code, news/docs screenshots captured only after their quotes are found verbatim on the live
+  page, and the submission post draft.
 
 ## Install
 
