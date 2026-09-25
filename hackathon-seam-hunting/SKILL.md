@@ -30,12 +30,16 @@ For each trust primitive, ask: what does a real application need that this primi
 
 ### 4. Rank seams by stakes
 Order the seams by the one-sentence scary test: can you state the failure so a non-technical judge feels it in one sentence? Rough priority: money > secrets > correctness > convenience. Cross-check against the case-study metrics from step 2 — the seam should threaten something a real customer pays to protect. If it needs a paragraph to feel scary, drop it.
+Sponsor-lane note: the decider rewards the story they can retell internally over novelty for its own sake. An unhinged demo that cannot be retold in the sponsor's own words loses to a legible one.
 
 ### 4.5. Screen seams against published judging criteria
 If the sponsor published judging criteria with weights, retire any generic rubric and score each ranked seam against each weighted column. The picked seam must plausibly score on the **top-two weighted columns** — a seam that cannot carry the heaviest criteria is dropped no matter how scary it is. Record the screen as a small table (seam × criterion → plausible score or gap). This is what kills good seams that are wrong for this event.
 
 ### 4.6. Column-coverage audit
 Before freezing the spec, check every judged column has an owning part of the spec. A column with no owner is a gap you will discover at the worst time (e.g. an AI-Native Design column with zero AI features in the spec). Fill each gap or explicitly scope it out now — never discover it at PRD review.
+
+### 4.7. Calibrate against the decider's cool-list
+From people-research, write down the 2–4 things the prize decider finds "cool" (their thesis, their public bets, what they themselves demo). Score the top seam against each. Then hunt negligible-scope-creep enhancements — changes that cost almost nothing but raise the cool score (a visible tool call in the first 60 seconds, a one-line framing). If an enhancement needs real scope, it goes through the time-budget filter (step 6), not around it.
 
 ### 5. Transplant the solution
 Do not invent a mechanism. Pull the solution shape from a mature domain: idempotency keys (payments), taint tracking (security), write-ahead logs (databases), allowlists (ops), required status checks (CI/CD release gating). Transplanted solutions arrive pre-trusted by technical judges.
@@ -45,20 +49,28 @@ Validity check before pre-registering: verify the transplant against the platfor
 Cut the scope to what is demoable in the time budget. Cut rule: if a piece is not the villain→resolution scene or the evidence backing it, it does not get built.
 Corollary: never regenerate an approved stage. On a spec-first platform, additive deltas go into the earliest stage the build actually consumes — never by reopening an approved PRD, since regeneration costs time and risks losing fixes. Keep a post-build verify-only pass that checks the build against the spec without changing it.
 
+Credential-seam rule: if the only blocker is a key, credential, or signup, build everything behind an interface first (mock adapter for fixtures, real adapter as a thin plug-in). The key becomes a one-run verification step, never a schedule risk.
+
+Claim-vs-built audit (pre-build checklist): every claim in the pitch and spec must name the phase or prompt that builds it. A claim with no builder gets reworded to what is actually built, or cut. Re-run this audit after every spec edit — scope edits silently orphan claims.
+
 ### 7. Pre-register (before building)
-Write down: the seam (X vs Y), the stakes claim in one sentence, the demo shape (villain scene → resolution scene), and the evidence you will show. Then add four lines:
+Write down: the seam (X vs Y), the stakes claim in one sentence, the demo shape (villain scene → resolution scene), and the evidence you will show. Then add six lines:
+- **Metrics, declared first:** the north star (the single rate or count the product's job is measured by) plus a counter metric that punishes the degenerate strategy for maximizing the north star. The two must be in direct tension — together they pin exactly one behavior. Demo readouts are the count versions of both.
+- **Red proofs:** pre-register the adversarial proofs that gate each build phase — each must pass before the build advances. A proof never mutates the artifact under test (temp-copy discipline: copy, tamper the copy, verify, delete). A demo that cannot be re-run deterministically is not evidence.
 - **Claim calibration:** label each stakes claim as documentary (a docs quote — evidence of a missing mechanism) or empirical (a real incident — evidence something actually broke). Never present documentary evidence as empirical unsafety.
 - **Product scope, honestly:** state what the product does not change. (An app-level gate does not change the platform.)
 - **Strongest objection, pre-answered:** write the best "why not just use existing X?" objection and its one-paragraph answer. The answer is usually a layer difference (e.g. spec-generation time vs merge time).
-- **Incident analogue (optional):** one real incident as the stakes story, with a written claim boundary — what it proves and what it does not. Prefer contemporaneous sources; verify citation URLs before publishing.
+- **Incident analogue (optional):** one real incident as the stakes story, with a written claim boundary — what it proves and what it does not. The incident must be in the judges' living memory — post-2015, ideally AI-native; an older incident costs the demo its stakes. Prefer contemporaneous sources; verify citation URLs before publishing.
 This is what makes the method testable — see Evaluation.
 
 ## Demo shape
 Villain → resolution. Open with the failure happening (the double charge, the leaked secret). Close with it made impossible. Before/after. Never open with architecture.
+The mechanism stays serious; the demo is theatrical. Name the beats in the pre-registration: the villain reveal (the contradiction on screen), the refusal moment (the full-screen refusal), the one-liner (the opening sentence), and the receipt (the auditable artifact the judge inspects).
 Presentation polish — beats tables, launch post, verified news/incident visuals, mock labeling — belongs to the demo-ready stage, not this skill. This skill specifies what the demo must show; the later stage decides how to show it.
 
 ## Evidence bar (what "done" looks like)
 - Deterministic tests with exact pass counts, runnable via one script.
+- Red proofs: pre-registered adversarial proofs, all must pass before the build advances; each runnable via one script, and no proof mutates the artifact under test.
 - Exact setup/repro commands — no "it worked on my machine."
 - An auditable trail (ledger, log, replay) the judge could inspect.
 - An explicit limitations section — name your own failure modes. This is a credibility multiplier, not a weakness.
